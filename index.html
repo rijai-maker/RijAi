@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>RijAI - Future AI</title>
+
+<title>RijAI - Future AI Assistant</title>
 
 <style>
 
@@ -14,8 +15,9 @@ text-align:center;
 }
 
 .container{
-padding:25px;
+padding:30px;
 }
+
 
 /* Futuristic Brain Logo */
 
@@ -23,34 +25,18 @@ padding:25px;
 width:220px;
 height:150px;
 margin:20px auto;
-background:
-radial-gradient(circle at 50% 50%,#4da6ff,#111827);
+background:radial-gradient(circle,#4da6ff,#111827);
 border-radius:55% 45% 50% 50%;
-box-shadow:
-0 0 30px #4da6ff,
-inset 0 0 25px #2563eb;
+box-shadow:0 0 40px #4da6ff;
 display:flex;
 align-items:center;
 justify-content:center;
-position:relative;
 animation:float 3s infinite;
-}
-
-.brain:before{
-content:"";
-position:absolute;
-width:170px;
-height:100px;
-border:3px solid #4da6ff;
-border-radius:50%;
-opacity:.7;
 }
 
 .brain span{
 font-size:60px;
 font-weight:bold;
-z-index:2;
-color:white;
 text-shadow:0 0 20px white;
 }
 
@@ -63,24 +49,29 @@ text-shadow:0 0 25px #4da6ff;
 
 
 .card{
+
 background:#111827;
 max-width:550px;
 margin:auto;
 padding:30px;
 border-radius:30px;
 box-shadow:0 0 30px #2563eb;
+
 }
 
 
 input{
+
 padding:15px;
 border-radius:20px;
 border:none;
 width:65%;
+
 }
 
 
 button{
+
 padding:15px 20px;
 margin:8px;
 border:none;
@@ -88,18 +79,23 @@ border-radius:25px;
 background:#4da6ff;
 color:white;
 font-size:16px;
+
 }
 
 
 #reply{
+
 margin-top:20px;
 color:#4da6ff;
+
 }
 
 
 .about{
+
 margin-top:30px;
 color:#aaa;
+
 }
 
 
@@ -168,11 +164,10 @@ transform:translateY(-15px);
 <h3>About RijAI</h3>
 
 <p>
-A futuristic AI assistant project created by Rijan.
+RijAI is a futuristic AI assistant project created by Rijan.
 </p>
 
 </div>
-
 
 
 </div>
@@ -185,32 +180,65 @@ A futuristic AI assistant project created by Rijan.
 async function sendMessage(){
 
 
+let message=document.getElementById("message").value;
+
 let reply=document.getElementById("reply");
 
 
-reply.innerHTML="Thinking 🤖";
+if(message.trim()==""){
+
+reply.innerHTML="Please type something 🤖";
+
+return;
+
+}
+
+
+reply.innerHTML="Thinking... 🤖";
 
 
 try{
 
 
 let response=await fetch(
-"https://rijai.onrender.com/"
+
+"https://rijai.onrender.com/chat",
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json"
+
+},
+
+body:JSON.stringify({
+
+message:message
+
+})
+
+}
+
+
 );
 
 
-let data=await response.text();
+let data=await response.json();
 
 
-reply.innerHTML=data;
+reply.innerHTML=data.answer;
 
 
 }
 
+
 catch(error){
 
 
-reply.innerHTML="Server connection error";
+reply.innerHTML="Connection error";
 
 
 }
@@ -228,9 +256,7 @@ if(!("webkitSpeechRecognition" in window)){
 
 alert("Voice is not supported in this browser");
 
-
 return;
-
 
 }
 
@@ -245,6 +271,7 @@ speech.onresult=function(event){
 
 
 document.getElementById("message").value=
+
 event.results[0][0].transcript;
 
 
@@ -255,7 +282,6 @@ speech.start();
 
 
 }
-
 
 
 </script>
