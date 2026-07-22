@@ -4,42 +4,56 @@
 <title>RijAI - Future AI</title>
 
 <style>
+
 body{
 margin:0;
 background:#050816;
 color:white;
-font-family:Arial;
+font-family:Arial,sans-serif;
 text-align:center;
 }
 
 .container{
-padding:30px;
+padding:25px;
 }
 
+/* Futuristic Brain Logo */
+
 .brain{
-width:170px;
-height:120px;
+width:220px;
+height:150px;
 margin:20px auto;
-border-radius:50%;
-background:radial-gradient(circle,#4da6ff,#111827);
-box-shadow:0 0 40px #4da6ff;
+background:
+radial-gradient(circle at 50% 50%,#4da6ff,#111827);
+border-radius:55% 45% 50% 50%;
+box-shadow:
+0 0 30px #4da6ff,
+inset 0 0 25px #2563eb;
 display:flex;
 align-items:center;
 justify-content:center;
+position:relative;
 animation:float 3s infinite;
 }
 
-.brain:before,
-.brain:after{
+.brain:before{
 content:"";
 position:absolute;
+width:170px;
+height:100px;
+border:3px solid #4da6ff;
+border-radius:50%;
+opacity:.7;
 }
 
 .brain span{
-font-size:55px;
+font-size:60px;
 font-weight:bold;
+z-index:2;
+color:white;
 text-shadow:0 0 20px white;
 }
+
 
 h1{
 font-size:55px;
@@ -47,124 +61,202 @@ color:#4da6ff;
 text-shadow:0 0 25px #4da6ff;
 }
 
+
 .card{
 background:#111827;
 max-width:550px;
 margin:auto;
 padding:30px;
-border-radius:25px;
+border-radius:30px;
 box-shadow:0 0 30px #2563eb;
 }
+
 
 input{
 padding:15px;
 border-radius:20px;
 border:none;
-width:60%;
+width:65%;
 }
 
+
 button{
-padding:15px;
-margin:5px;
-border-radius:20px;
+padding:15px 20px;
+margin:8px;
 border:none;
+border-radius:25px;
 background:#4da6ff;
 color:white;
+font-size:16px;
 }
+
 
 #reply{
 margin-top:20px;
 color:#4da6ff;
 }
 
+
+.about{
+margin-top:30px;
+color:#aaa;
+}
+
+
 @keyframes float{
+
 50%{
 transform:translateY(-15px);
 }
+
 }
+
 </style>
 
 </head>
 
+
 <body>
 
+
 <div class="container">
+
 
 <div class="brain">
 <span>RI</span>
 </div>
+
 
 <h1>RijAI</h1>
 
 <p>Your futuristic AI assistant</p>
 
 
+
 <div class="card">
+
 
 <h2>Chat with RijAI</h2>
 
+
 <input id="message" placeholder="Ask anything...">
+
 
 <br>
 
+
 <button onclick="sendMessage()">Send</button>
 
-<button onclick="voice()">🎤</button>
+<button onclick="startVoice()">🎤 Voice</button>
+
 
 <br><br>
 
+
 <input type="file" accept="image/*">
+
 
 <div id="reply"></div>
 
-</div>
 
 </div>
+
+
+
+<div class="about">
+
+<h3>About RijAI</h3>
+
+<p>
+A futuristic AI assistant project created by Rijan.
+</p>
+
+</div>
+
+
+
+</div>
+
 
 
 <script>
 
+
 async function sendMessage(){
 
-let box=document.getElementById("reply");
 
-box.innerHTML="Thinking 🤖";
+let reply=document.getElementById("reply");
+
+
+reply.innerHTML="Thinking 🤖";
+
 
 try{
 
+
 let response=await fetch(
-"https://rijai.onrender.com"
+"https://rijai.onrender.com/"
 );
+
 
 let data=await response.text();
 
-box.innerHTML=data;
+
+reply.innerHTML=data;
+
 
 }
 
-catch{
+catch(error){
 
-box.innerHTML="Server not connected";
+
+reply.innerHTML="Server connection error";
+
 
 }
 
+
 }
 
 
-function voice(){
+
+function startVoice(){
+
+
+if(!("webkitSpeechRecognition" in window)){
+
+
+alert("Voice is not supported in this browser");
+
+
+return;
+
+
+}
+
 
 let speech=new webkitSpeechRecognition();
 
+
+speech.lang="en-US";
+
+
 speech.onresult=function(event){
+
 
 document.getElementById("message").value=
 event.results[0][0].transcript;
 
+
 };
+
 
 speech.start();
 
+
 }
+
+
 
 </script>
 
