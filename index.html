@@ -134,6 +134,28 @@ button:hover {
 </div>
 
 </div>
+<div class="box">
+  ...
+</div>
 
+<script>
+const button = document.querySelector("button");
+const input = document.querySelector("input");
+
+button.onclick = async () => {
+  const message = input.value;
+
+  const response = await fetch("https://rijai.onrender.com", {
+    method: "GET"
+  });
+
+  const reply = await response.text();
+
+  alert(reply);
+};
+</script>
+
+</body>
+</html>
 </body>
 </html>
