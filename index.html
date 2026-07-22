@@ -1,68 +1,86 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>RijAI - Your AI Assistant</title>
+<title>RijAI - Future AI</title>
 
 <style>
-body {
-    margin: 0;
-    background: #050816;
-    color: white;
-    font-family: Arial, sans-serif;
-    text-align: center;
+body{
+margin:0;
+background:#050816;
+color:white;
+font-family:Arial;
+text-align:center;
 }
 
-.container {
-    padding: 40px 20px;
+.container{
+padding:30px;
 }
 
-.logo {
-    font-size: 70px;
-    font-weight: bold;
-    color: #4da6ff;
-    animation: float 3s infinite;
-    text-shadow: 0 0 25px #4da6ff;
+.brain{
+width:170px;
+height:120px;
+margin:20px auto;
+border-radius:50%;
+background:radial-gradient(circle,#4da6ff,#111827);
+box-shadow:0 0 40px #4da6ff;
+display:flex;
+align-items:center;
+justify-content:center;
+animation:float 3s infinite;
 }
 
-h1 {
-    font-size: 50px;
-    color: #4da6ff;
+.brain:before,
+.brain:after{
+content:"";
+position:absolute;
 }
 
-.card {
-    background: #111827;
-    max-width: 500px;
-    margin: 30px auto;
-    padding: 25px;
-    border-radius: 25px;
-    box-shadow: 0 0 30px #2563eb;
+.brain span{
+font-size:55px;
+font-weight:bold;
+text-shadow:0 0 20px white;
 }
 
-input {
-    width: 65%;
-    padding: 15px;
-    border-radius: 20px;
-    border: none;
+h1{
+font-size:55px;
+color:#4da6ff;
+text-shadow:0 0 25px #4da6ff;
 }
 
-button {
-    padding: 15px;
-    margin: 5px;
-    border-radius: 20px;
-    border: none;
-    background: #4da6ff;
-    color: white;
+.card{
+background:#111827;
+max-width:550px;
+margin:auto;
+padding:30px;
+border-radius:25px;
+box-shadow:0 0 30px #2563eb;
 }
 
-#reply {
-    margin-top: 20px;
-    color: #4da6ff;
+input{
+padding:15px;
+border-radius:20px;
+border:none;
+width:60%;
 }
 
-@keyframes float {
-    50% {
-        transform: translateY(-15px);
-    }
+button{
+padding:15px;
+margin:5px;
+border-radius:20px;
+border:none;
+background:#4da6ff;
+color:white;
+}
+
+#reply{
+margin-top:20px;
+color:#4da6ff;
+}
+
+@keyframes float{
+50%{
+transform:translateY(-15px);
+}
 }
 </style>
 
@@ -72,11 +90,14 @@ button {
 
 <div class="container">
 
-<div class="logo">RI</div>
+<div class="brain">
+<span>RI</span>
+</div>
 
 <h1>RijAI</h1>
 
 <p>Your futuristic AI assistant</p>
+
 
 <div class="card">
 
@@ -88,7 +109,7 @@ button {
 
 <button onclick="sendMessage()">Send</button>
 
-<button onclick="startVoice()">🎤 Voice</button>
+<button onclick="voice()">🎤</button>
 
 <br><br>
 
@@ -103,48 +124,45 @@ button {
 
 <script>
 
-function startVoice(){
-
-let recognition = new webkitSpeechRecognition();
-
-recognition.onresult = function(event){
-
-document.getElementById("message").value =
-event.results[0][0].transcript;
-
-};
-
-recognition.start();
-
-}
-
-
 async function sendMessage(){
 
-let text =
-document.getElementById("message").value;
+let box=document.getElementById("reply");
 
-document.getElementById("reply").innerHTML =
-"Thinking 🤖";
+box.innerHTML="Thinking 🤖";
 
-try {
+try{
 
-let response = await fetch(
+let response=await fetch(
 "https://rijai.onrender.com"
 );
 
-let data = await response.text();
+let data=await response.text();
 
-document.getElementById("reply").innerHTML=data;
+box.innerHTML=data;
 
 }
 
 catch{
 
-document.getElementById("reply").innerHTML=
-"Server not connected";
+box.innerHTML="Server not connected";
 
 }
+
+}
+
+
+function voice(){
+
+let speech=new webkitSpeechRecognition();
+
+speech.onresult=function(event){
+
+document.getElementById("message").value=
+event.results[0][0].transcript;
+
+};
+
+speech.start();
 
 }
 
